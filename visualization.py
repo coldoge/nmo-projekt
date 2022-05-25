@@ -2,11 +2,9 @@ import pygame
 
 
 def draw_text(my_font, screen, actual_generation):
-    text_surface = my_font.render("best route distance: " + str(actual_generation.best_route_distance), False,
-                                  (0, 0, 0))
+    text_surface = my_font.render("best route distance:" + str(actual_generation.best_route_distance), False, (0, 0, 0))
     screen.blit(text_surface, (0, 500))
-
-    text_surface = my_font.render("Population number: " + str(actual_generation.number_of_generation), False, (0, 0, 0))
+    text_surface = my_font.render("Population number:" + str(actual_generation.number_of_generation), False, (0, 0, 0))
     screen.blit(text_surface, (0, 520))
 
 
