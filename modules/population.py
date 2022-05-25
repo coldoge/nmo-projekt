@@ -31,7 +31,7 @@ class Population:
             self.best_route_locations = self.generation[self.best_route]
 
     def get_roulette_wheel(self):
-        reverse_list = [(1/x)**3 for x in self.lengths_list]
+        reverse_list = [min(self.lengths_list)/x for x in self.lengths_list]
         distance_divided = [x * (100/sum(reverse_list)) for x in reverse_list]
         roulette_wheel = [distance_divided[0]]
         for i in range(1, len(distance_divided)-1):
