@@ -30,8 +30,11 @@ while state:
     draw_lines(route, screen)
     draw_text(my_font, screen, actual_generation)
     actual_generation.update_population()
-    actual_generation.mutation(mutation_rate)
+    actual_generation.mutation_v2(mutation_rate)
+    actual_generation.elitism()
     pygame.display.update()
+    if actual_generation.tries_since_last_best > max_tries:
+        state = False
     clock.tick(60)
 pygame.quit()
 quit()
