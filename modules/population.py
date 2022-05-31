@@ -14,6 +14,7 @@ class Population:
         self.best_result_list = []
         self.best_route_locations = None
         self.number_of_generation = 1
+        self.tries_since_last_best = 0
 
     def calculate_lengths_of_routes(self):
         self.lengths_list = []
@@ -29,6 +30,9 @@ class Population:
             self.best_route = self.lengths_list.index(self.best_route_distance)
             self.best_result_list.append(self.best_route_distance)
             self.best_route_locations = self.generation[self.best_route]
+            self.tries_since_last_best = 0
+        else:
+            self.tries_since_last_best += 1
 
     def get_roulette_wheel(self):
         reverse_list = [min(self.lengths_list)/x for x in self.lengths_list]
@@ -89,12 +93,32 @@ class Population:
         self.generation = new_generation
         self.number_of_generation += 1
 
-    def mutation(self, mutation_rate):
+    def mutation_v1(self, mutation_rate):
         for route in self.generation:
             if random.random() <= mutation_rate:
                 city1 = random.randint(1, len(route)-2)
                 city2 = random.randint(1, len(route)-2)
                 route[city1], route[city2] = route[city2], route[city1]
+
+# TODO it needs to be refactored
+    def mutation_v2(self, mutation_rate):
+        for i in range(0, len(self.generation)):
+            new_route = []
+            if random.random() <= mutation_rate:
+                index = random.randint(1, len(self.generation[i])-2)
+                for n in range(0, index):
+                    new_route.append(self.generation[i][n])
+                for j in range(len(self.generation[i])-2, index-1, -1):
+                    new_route.append(self.generation[i][j])
+                new_route.append(0)
+                self.generation[i] = new_route
+
+    def elitism(self):
+        if self.best_route_locations not in self.generation:
+            worst_route_index = self.lengths_list.index(max(self.lengths_list))
+            self.generation[worst_route_index] = self.best_route_locations
+            self.lengths_list[worst_route_index] = self.best_route_distance
+            self.best_route = worst_route_index
 
     def get_route(self, locations):
         route = []
