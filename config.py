@@ -3,7 +3,8 @@
 #####################
 mutation_rate = 0.1
 number_of_locations = 15
-solutions_in_generation = 1000
+solutions_in_generation = 50
+max_tries = 1000
 
 #####################
 #   Visualization   #
