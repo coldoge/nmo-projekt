@@ -1,4 +1,5 @@
 import math
+import time
 import random
 from itertools import chain
 
@@ -15,6 +16,8 @@ class Population:
         self.best_route_locations = None
         self.number_of_generation = 1
         self.tries_since_last_best = 0
+        self.computing_time = None
+        self.how_many_populations = None
 
     def calculate_lengths_of_routes(self):
         self.lengths_list = []
@@ -24,13 +27,15 @@ class Population:
                 distance = distance + self.distance_array[route[i]][route[i+1]]
             self.lengths_list.append(distance)
 
-    def get_best_results(self):
+    def get_best_results(self, start_time):
         if self.best_route_distance > min(self.lengths_list):
             self.best_route_distance = min(self.lengths_list)
             self.best_route = self.lengths_list.index(self.best_route_distance)
             self.best_result_list.append(self.best_route_distance)
             self.best_route_locations = self.generation[self.best_route]
             self.tries_since_last_best = 0
+            self.computing_time = time.time() - start_time
+            self.how_many_populations = self.number_of_generation
         else:
             self.tries_since_last_best += 1
 
